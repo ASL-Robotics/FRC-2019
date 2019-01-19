@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -14,6 +17,30 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
+
+  public static TalonSRX DRIVETRAIN_LEFT1, DRIVETRAIN_LEFT2, DRIVETRAIN_RIGHT1, DRIVETRAIN_RIGHT2;
+  public final static double MAX_VELOCITY = 1700;
+
+  public static void init() {
+    DRIVETRAIN_LEFT1 = new TalonSRX(0);
+    DRIVETRAIN_LEFT1.setInverted(true);
+    DRIVETRAIN_LEFT1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    DRIVETRAIN_LEFT1.setSensorPhase(true);
+    DRIVETRAIN_LEFT1.config_kF(0, 1023 / MAX_VELOCITY);
+
+    DRIVETRAIN_LEFT2 = new TalonSRX(1);
+    DRIVETRAIN_LEFT2.setInverted(true);
+    DRIVETRAIN_LEFT2.follow(DRIVETRAIN_LEFT1);
+
+    DRIVETRAIN_RIGHT1 = new TalonSRX(2);
+    DRIVETRAIN_RIGHT1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    DRIVETRAIN_RIGHT1.setSensorPhase(true);
+    DRIVETRAIN_RIGHT1.config_kF(0, 1023 / MAX_VELOCITY);
+
+    DRIVETRAIN_RIGHT2 = new TalonSRX(3);
+    DRIVETRAIN_RIGHT2.follow(DRIVETRAIN_RIGHT1);
+  }
+
   // For example to map the left and right motors, you could define the
   // following variables to use with your drivetrain subsystem.
   // public static int leftMotor = 1;
